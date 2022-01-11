@@ -1,0 +1,118 @@
+/* CREATE DATABASE kdl; */
+USE kdl;
+
+/* CREATE TABLE `doctors` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`foto` varchar(25) NOT NULL,
+`first_name` varchar(25) NOT NULL,
+`last_name` varchar(25) NOT NULL,
+`date_of_birth` DATE NOT NULL,
+`specialization` varchar(25) NOT NULL,
+PRIMARY KEY (`id`)
+); */
+INSERT INTO `doctors` (`photo`, `first_name`, `last_name`, `date_of_birth`, `specialization`) VALUES
+('photo/doc1.png', 'Ирина', 'Чекунова', '1976-08-25', 'Стоматолог'),
+('photo/doc2.png', 'Екатерина', 'Деева', '1981-06-15', 'Кардиолог'),
+('photo/doc3.png', 'Алла', 'Крюкова', '1987-08-25', 'Дерматолог'),
+('photo/doc4.png', 'Анастасия', 'Дьяченко', '1989-05-27', 'Диетолог'),
+('photo/doc5.png', 'Парвина', 'Альтовская', '1971-10-05', 'Невролог'),
+('photo/doc6.png', 'Алена', 'Стурова', '1985-07-17', 'Хирург'),
+('photo/doc7.png', 'Ксения', 'Шпилевая', '1976-08-05', 'Кардиолог'),
+('photo/doc8.png', 'Полина', 'Садчикова', '1970-02-07', 'Стоматолог'); 
+
+/* CREATE TABLE `patients` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`first_name` varchar(25) NOT NULL,
+	`last_name` varchar(25) NOT NULL,
+	`phone` INT(11) NOT NULL,
+	PRIMARY KEY (`id`)
+); */
+INSERT INTO patients (`first_name`, `last_name`, `phone`) VALUES
+('Сания', 'Хадынова', '89728528847'),
+('Ульяна', 'Попова', '89610625569'),
+('Алена', 'Багачюк', '89738516648'),
+('Екатерина', 'Попова', '89620615539'),
+('Елена', 'Астахова', '89640628847'),
+('Мария', 'Самсоник', '89640639418'),
+('Анастасия', 'Пуликова', '89640639716'),
+('Тамара', 'Попова', '89610637926');
+
+/* CREATE TABLE `palati` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`id_doctor` INT,
+	`kolichestvo_mest` INT NOT NULL,
+	`m_or_w` char(1) NOT NULL,
+	PRIMARY KEY (`id`),
+CONSTRAINT FOREIGN KEY (`id_doctor`) REFERENCES `doctors`(`id`)
+    ON DELETE SET NULL
+); */
+INSERT INTO palati (`id_doctor`, `kolichestvo_mest`, `m_or_w`) VALUES
+(1, 2, 'm'),
+(2, 2, 'w'),
+(3, 4, 'm'),
+(4, 4, 'w'),
+(5, 1, 'm'),
+(6, 1, 'w'),
+(7, 2, 'm'),
+(8, 2, 'w'),
+(1, 4, 'm'),
+(2, 4, 'w');
+
+/* CREATE TABLE `bolezni` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` varchar(25) NOT NULL,
+	`opisanie` varchar(500) NOT NULL,
+	PRIMARY KEY (`id`)
+); */
+INSERT INTO bolezni (`name`, `opisanie`) VALUES
+('Кариес', 'какое-то описание'),
+('Аритмия сердца', 'какое-то описание'),
+('Дерматит', 'какое-то описание'),
+('Диабет', 'какое-то описание'),
+('Грыжа диска', 'какое-то описание'),
+('Растяжение', 'какое-то описание'),
+('Мерцательная аритмия', 'какое-то описание'),
+('Пародонтит', 'какое-то описание');
+
+/* CREATE TABLE `analyzes` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`image` varchar(25) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`id_bolezni` INT(50) NOT NULL,
+	`opisanie` varchar(200) NOT NULL,
+	`cost` INT(4) NOT NULL,
+	PRIMARY KEY (`id`),
+FOREIGN KEY (`id_bolezni`) REFERENCES `bolezni`(`id`)
+); */
+INSERT INTO analyzes (`image`, `name`, `id_bolezni`, `opisanie`, `cost`) VALUES
+('photo/an1.png', 'Анализ 1', 1, 'какое-то описание', '760'),
+('photo/an2.png', 'Анализ 2', 2, 'какое-то описание', '800'),
+('photo/an3.png', 'Анализ 3', 3, 'какое-то описание', '950'),
+('photo/an4.png', 'Анализ 4', 4, 'какое-то описание', '860'),
+('photo/an5.png', 'Анализ 5', 5, 'какое-то описание', '1000'),
+('photo/an6.png', 'Анализ 6', 6, 'какое-то описание', '720'),
+('photo/an7.png', 'Анализ 7', 7, 'какое-то описание', '710'),
+('photo/an8.png', 'Анализ 8', 8, 'какое-то описание', '590');
+
+
+/* CREATE TABLE `sicklist` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`id_patient` INT NOT NULL,
+	`id_doctor` INT NOT NULL,
+	`id_bolesni` INT NOT NULL,
+	`data_zabolevania` DATE NOT NULL,
+	`data_visdorovlenia` DATE NOT NULL,
+	PRIMARY KEY (`id`),
+FOREIGN KEY (`id_patient`) REFERENCES `patients`(`id`),
+FOREIGN KEY (`id_doctor`) REFERENCES `doctors`(`id`),
+FOREIGN KEY (`id_bolesni`) REFERENCES `bolezni`(`id`)
+); */
+INSERT INTO sicklist (`id_patient`, `id_doctor`, `id_bolezni`, `data_zabolevania`, `data_visdorovlenia`) VALUES
+(1, 1, 1, '2021-11-27', '2021-12-05'),
+(2, 2, 2, '2021-10-27', '2021-10-05'),
+(3, 3, 3, '2021-09-27', '2021-09-05'),
+(4, 4, 4, '2021-11-07', '2021-11-17'),
+(5, 5, 5, '2021-06-27', '2021-07-05'),
+(6, 6, 6, '2021-05-27', '2021-06-05'),
+(7, 7, 7, '2021-11-15', '2021-11-30'),
+(8, 8, 8, '2021-10-27', '2021-11-07');

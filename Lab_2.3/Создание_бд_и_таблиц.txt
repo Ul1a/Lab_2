@@ -1,0 +1,61 @@
+CREATE DATABASE kdl;
+USE kdl;
+
+CREATE TABLE `doctors` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`photo` varchar(25) NOT NULL,
+	`first_name` varchar(25) NOT NULL,
+	`last_name` varchar(25) NOT NULL,
+	`date_of_birth` DATE NOT NULL,
+	`specialization` varchar(25) NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `patients` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`first_name` varchar(25) NOT NULL,
+	`last_name` varchar(25) NOT NULL,
+	`phone` long NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `palati` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`id_doctor` INT,
+	`kolichestvo_mest` INT NOT NULL,
+	`m_or_w` char(1) NOT NULL,
+	PRIMARY KEY (`id`),
+CONSTRAINT FOREIGN KEY (`id_doctor`) REFERENCES `doctors`(`id`)
+    ON DELETE SET NULL
+);
+
+CREATE TABLE `bolezni` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` varchar(25) NOT NULL,
+	`opisanie` varchar(500) NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `analyzes` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`image` varchar(25) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`id_bolezni` INT(50) NOT NULL,
+	`opisanie` varchar(200) NOT NULL,
+	`cost` INT(4) NOT NULL,
+	PRIMARY KEY (`id`),
+FOREIGN KEY (`id_bolezni`) REFERENCES `bolezni`(`id`)
+);
+
+CREATE TABLE `sicklist` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`id_patient` INT NOT NULL,
+	`id_doctor` INT NOT NULL,
+	`id_bolezni` INT NOT NULL,
+	`data_zabolevania` DATE NOT NULL,
+	`data_visdorovlenia` DATE NOT NULL,
+	PRIMARY KEY (`id`),
+FOREIGN KEY (`id_patient`) REFERENCES `patients`(`id`),
+FOREIGN KEY (`id_doctor`) REFERENCES `doctors`(`id`),
+FOREIGN KEY (`id_bolezni`) REFERENCES `bolezni`(`id`)
+);
